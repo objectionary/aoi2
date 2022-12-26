@@ -5,16 +5,25 @@ import com.jcabi.xml.XMLDocument
 import com.yegor256.xsline.TrClasspath
 import com.yegor256.xsline.Xsline
 import org.eolang.parser.ParsingTrain
+import org.objectionary.deog.abstract
+import org.objectionary.deog.name
+import org.objectionary.deog.packageName
+import org.objectionary.deog.repr.DGraphNode
 import org.slf4j.LoggerFactory
 import org.w3c.dom.Document
+import org.w3c.dom.Node
 import java.io.File
 import java.io.FileInputStream
 import java.nio.file.Files
 import java.nio.file.Paths
 import javax.xml.parsers.DocumentBuilderFactory
 
-class SourcesExtractor {
+typealias GraphAbstracts = MutableMap<String, MutableSet<Node>>
 
+val abstracts: GraphAbstracts = mutableMapOf()
+
+
+class SourcesExtractor {
     private val logger = LoggerFactory.getLogger("org.objectionary.deog.launch.DeogLauncher")
     private val sep = File.separatorChar
 
@@ -27,6 +36,14 @@ class SourcesExtractor {
                 transformXml(it.toString(), tmpPath)
                 documents[getDocument(tmpPath)!!] = tmpPath
             }
+        documents.forEach {
+            val objects: MutableList<Node> = mutableListOf()
+            val docObjects = it.key.getElementsByTagName("o")
+            for (i in 0 until docObjects.length) {
+                objects.add(docObjects.item(i))
+            }
+            abstracts(objects)
+        }
         return documents
     }
 
@@ -85,4 +102,13 @@ class SourcesExtractor {
         }
         return tmpPath
     }
+
+    @Suppress("PARAMETER_NAME_IN_OUTER_LAMBDA")
+    private fun abstracts(objects: MutableList<Node>) =
+        objects.forEach {
+            val name = name(it)
+            if (abstract(it) != null && name != null) {
+                abstracts.getOrPut(name) { mutableSetOf() }.add(it)
+            }
+        }
 }

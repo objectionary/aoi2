@@ -53,11 +53,19 @@ class PlGenerator {
             base(child)?.let {
                 if (!it.startsWith(".")) {
                     val (txt, j, name) = walkDotChain(child)
+                    val l = txt.split('.')
+                    if (l.size >= 3) {
+                        appliedFact(l[0], l[1], l[2])
+                    } else if (l.size == 2) {
+                        name(node)?.let {n ->
+                            appliedFact(n, l[0], l[1])
+                        }
+                    }
                     name?.let {n ->
                         if (n == "@") {
                             parentFact(txt, getFqn(name(node)!!, node.parentNode))
                         } else {
-                            isInstanceFact(n, getFqn(name(node)!!, node.parentNode))
+                            isInstanceFact(n, txt)
                         }
                     }
                     offset += j
@@ -84,17 +92,18 @@ class PlGenerator {
             if (base(tmp)?.startsWith('.') == true) sibling = tmp
             else break
         }
-        return Triple(txt!!, i, name(sibling))
+        return if (i > 0) Triple(txt!!, i, name(sibling)) else Triple(txt!!, i, name(node))
     }
 
     private fun getFqn(name: String, par: Node): String {
-        var fqn = name
-        var parent = par
-        while (name(parent) != null) {
-            fqn = "${name(parent)}.$fqn"
-            parent = parent.parentNode
-        }
-        return fqn
+//        var fqn = name
+//        var parent = par
+//        while (name(parent) != null) {
+//            fqn = "${name(parent)}.$fqn"
+//            parent = parent.parentNode
+//        }
+//        return fqn
+        return name
     }
 
     @Suppress("PARAMETER_NAME_IN_OUTER_LAMBDA")
