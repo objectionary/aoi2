@@ -1,15 +1,18 @@
 package org.objectionary.aoi.generate.util
 
+import org.objectionary.aoi.generate.prologFile
 import java.io.File
 
-val plFile = File("proloog.pl").outputStream()
+val plFile = File(prologFile).outputStream()
+val nodes = mutableSetOf<String>() // todo write them to file
 
 fun containsAttrFact(nodeName: String, childName: String) {
-    plFile.write("contains_attr($nodeName, $childName, fact).\n".toByteArray())
+    plFile.write("contains_attr(${nodeName.replace('.', '-')}, ${childName.replace('.', '-')}, fact).\n".toByteArray())
+    nodes.add(nodeName)
 }
 
 fun parentFact(nodeName: String, childName: String) {
-    plFile.write("parent($nodeName, $childName, fact).\n".toByteArray())
+    plFile.write("parent(${nodeName.replace('.', '-')}, ${childName.replace('.', '-')}, fact).\n".toByteArray())
 }
 
 fun isInstanceFact(nodeName: String, childName: String) {

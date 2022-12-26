@@ -9,13 +9,13 @@ import org.objectionary.deog.packageName
 import org.w3c.dom.Document
 import org.w3c.dom.Node
 import java.io.File
-import java.io.Serializable
 
 typealias GraphAbstracts = MutableMap<String, MutableSet<Node>>
+const val prologFile = "proloog.pl"
 
 class PlGenerator {
     fun generatePrologScripts(path: String) {
-        File("proloog.pl").createNewFile()
+        File(prologFile).createNewFile()
         val sourcesExtractor = SourcesExtractor()
         val documents = sourcesExtractor.collectDocuments(path)
         documents.forEach {
