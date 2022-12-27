@@ -21,8 +21,8 @@ fun isInstanceFact(nodeName: String, childName: String) {
 
 fun appliedFact(obj: String, attr: String, appliedAttr: String) {
     plFile.write(
-        ("applied(${obj.replace('.', '-')}, ${attr.replace('.', '-')}, " +
-                "${appliedAttr.replace('.', '-')}, fact).\n").toByteArray()
+        ("dot(${obj.replace('.', '-')}, ${attr.replace('.', '-')}, " +
+                "${appliedAttr.replace('.', '-').replace("QQ", "qq")}, fact).\n").toByteArray()
     )
 }
 
@@ -33,8 +33,7 @@ fun rules() {
             "contains_attr(X, Y, rule) :- is_instance(X, Z, fact),\n" +
             "                             contains_attr(Z, Y, _).\n" +
             "parent(X, Y, rule) :- parent(X, Z, fact), parent(Z, Y, fact).\n" +
-            "applied(Base, Fa, Attr, rule) :- is_instance(X, Base, fact),\n" +
-            "                                 applied(X, Fa, Attr, _)."
+            "dot(Base, Fa, Attr, rule) :- is_instance(X, Base, fact), dot(X, Fa, Attr, _).\n"
 
     plFile.write(rules.toByteArray())
 }
