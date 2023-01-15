@@ -26,9 +26,11 @@ val abstracts: GraphAbstracts = mutableMapOf()
 class SourcesExtractor {
     private val logger = LoggerFactory.getLogger("org.objectionary.deog.launch.DeogLauncher")
     private val sep = File.separatorChar
+    companion object {
+        val documents: MutableMap<Document, String> = mutableMapOf()
+    }
 
     fun collectDocuments(path: String): MutableMap<Document, String> {
-        val documents: MutableMap<Document, String> = mutableMapOf()
         Files.walk(Paths.get(path))
             .filter(Files::isRegularFile)
             .forEach {
@@ -90,8 +92,7 @@ class SourcesExtractor {
         filename: String
     ): String {
         val tmpPath =
-            "${path.substringBeforeLast(sep)}$sep${path.substringAfterLast(sep)}_aoi_l${filename.substring(path.length)}"
-
+            "${path.substringBeforeLast(sep)}$sep${path.substringAfterLast(sep).substringBeforeLast(".")}_aoi_l.xmir"
         val forDirs = File(tmpPath.substringBeforeLast(sep)).toPath()
         Files.createDirectories(forDirs)
         val newFilePath = Paths.get(tmpPath)

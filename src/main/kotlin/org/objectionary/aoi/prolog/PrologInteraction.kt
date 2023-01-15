@@ -1,7 +1,7 @@
 package org.objectionary.aoi.prolog
 
 import org.objectionary.aoi.generate.prologFile
-import org.objectionary.aoi.generate.util.nodes
+import org.objectionary.aoi.transformer.FileTransformer
 import org.objectionary.aoi.sources.abstracts
 import org.objectionary.deog.name
 import org.w3c.dom.Node
@@ -26,27 +26,39 @@ class PrologInteraction {
             writer.write(consult(prologFile))
 //            writer.write("applied(X, Y, A, _).\n")
 //            writer.write(";\n")
-            val abstractsLocal = mutableMapOf<String, MutableSet<String>>()
+            val abstractsLocal = mutableMapOf<Node, MutableSet<String>>()
+            val abstsNumbered = mutableListOf<Node>()
             abstracts.forEach { abst ->
                 abst.value.forEach {
                     name(it)?.let { n ->
                         writer.write(findall(n, "x"))
                         writer.flush()
-                        abstractsLocal[getFqnAbs(n, it.parentNode)] = mutableSetOf()
+                        abstractsLocal[it] = mutableSetOf() // getFqnAbs(n, it.parentNode)
+                        abstsNumbered.add(it)
                     }
                 }
             }
             writer.flush()
             writer.close()
             output = String(process.inputStream.readAllBytes(), StandardCharsets.UTF_8)
+            val fileWriter = FileTransformer()
             output
                 .split('.')
-                .filter { it.startsWith("L = ") }
-                .forEachIndexed { i, s ->  }
-            println(output)
+                .map { it.replace("\n", "").replace("\r", "") }
+                .filter { it.startsWith("L") && !it.contains("[]") }
+                .forEachIndexed { i, s ->
+                    run {
+                        println(name(abstsNumbered[i]))
+                        val ss = s.removePrefix("L = [").removeSuffix("]")
+                        println(ss)
+                        abstractsLocal[abstsNumbered[i]]?.add(ss)
+                    }
+                }
+//            println(output)
             if (process.waitFor() != 0) {
                 throw RuntimeException("External process finished with non zero exit value.")
             }
+            FileTransformer().addAoiSection(abstractsLocal)
         } catch (e: IOException) {
             println(e.message)
         } catch (e: InterruptedException) {
@@ -68,6 +80,6 @@ class PrologInteraction {
 
 //    private fun findall(node: String) = "findall(Y,contains_attr($node, Y, _),L).\n"
 
-    private fun findall(node: String, freeVar: String) = "findall(Y, applied($node, $freeVar, Y, _),L).\n"
+    private fun findall(node: String, freeVar: String) = "findall(Y, dot($node, $freeVar, Y, _), L).\n"
 
 }
