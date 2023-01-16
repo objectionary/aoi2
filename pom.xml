@@ -1,24 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.jcabi</groupId>
         <artifactId>parent</artifactId>
         <version>0.63.2</version>
     </parent>
-
-    <artifactId>aoi-l</artifactId>
-    <groupId>org.example</groupId>
+    <artifactId>aoi2</artifactId>
+    <groupId>org.eolang</groupId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-
-    <name>consoleApp</name>
+    <name>aoi2</name>
+    <description>Abstract Object Inference for EO using Prolog</description>
+    <url>https://github.com/objectionary/aoi2</url>
+    <inceptionYear>2022</inceptionYear>
+    <organization>
+        <name>objectionary</name>
+        <url>https://github.com/objectionary/aoi2</url>
+    </organization>
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>https://www.eolang.org/LICENSE.txt</url>
+            <distribution>site</distribution>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>1</id>
+            <name>Olesia Subbotina</name>
+            <email>lesya.sub@mail.ru</email>
+            <organization>yegor256.com</organization>
+            <organizationUrl>https://www.yegor256.com</organizationUrl>
+            <roles>
+                <role>Architect</role>
+                <role>Developer</role>
+            </roles>
+            <timezone>+3</timezone>
+        </developer>
+    </developers>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/objectionary/aoi2/issues</url>
+    </issueManagement>
+    <scm>
+        <connection>scm:git:git@github.com:objectionary/aoi2.git</connection>
+        <developerConnection>scm:git:git@github.com:objectionary/aoi2.git</developerConnection>
+        <url>https://github.com/objectionary/aoi2</url>
+    </scm>
+    <ciManagement>
+        <system>rultor</system>
+        <url>https://www.rultor.com/s/aoi2</url>
+    </ciManagement>
+    <distributionManagement>
+        <site>
+            <id>github-pages</id>
+            <url>https://github.com/objectionary/aoi2</url>
+        </site>
+    </distributionManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>17</java.version>
         <kotlin.code.style>official</kotlin.code.style>
+        <kotlin.version>1.7.20</kotlin.version>
+        <diktat-check.version>1.2.3</diktat-check.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <dokka.version>1.7.20</dokka.version>
         <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
     </properties>
 
@@ -26,6 +75,10 @@
         <repository>
             <id>mavenCentral</id>
             <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 
@@ -126,5 +179,24 @@
             <version>1.7.10</version>
         </dependency>
     </dependencies>
-
+    <profiles>
+        <profile>
+            <id>qulice</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.qulice</groupId>
+                        <artifactId>qulice-maven-plugin</artifactId>
+                        <version>0.22.0</version>
+                        <configuration>
+                            <excludes combine.children="append">
+                                <exclude>duplicatefinder:.*</exclude>
+                                <exclude>dependencies:ch.qos.logback</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
