@@ -89,7 +89,7 @@ class SourcesExtractor {
 
     private fun createTempDirectories(path: String): String {
         val tmpPath =
-            "${path.substringBeforeLast(sep)}_aoi_l$sep${path.substringAfterLast(sep)}"
+            "${path.substringBeforeLast(sep)}_aoi2$sep${path.substringAfterLast(sep)}"
         val forDirs = File(tmpPath.substringBeforeLast(sep)).toPath()
         Files.createDirectories(forDirs)
         val newFilePath = Paths.get(tmpPath)
