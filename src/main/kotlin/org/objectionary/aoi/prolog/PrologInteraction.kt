@@ -41,7 +41,6 @@ class PrologInteraction {
             writer.flush()
             writer.close()
             output = String(process.inputStream.readAllBytes(), StandardCharsets.UTF_8)
-            val fileWriter = FileTransformer()
             output
                 .split('.')
                 .map { it.replace("\n", "").replace("\r", "") }

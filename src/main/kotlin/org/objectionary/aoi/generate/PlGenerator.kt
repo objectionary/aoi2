@@ -27,7 +27,6 @@ class PlGenerator {
     private fun generatePrologScript(document: Document) {
         val objects: MutableList<Node> = mutableListOf()
         val docObjects = document.getElementsByTagName("o")
-        val packageName = packageName(docObjects.item(0))
         for (i in 0 until docObjects.length) {
             objects.add(docObjects.item(i))
         }
@@ -63,7 +62,7 @@ class PlGenerator {
                     }
                     name?.let {n ->
                         if (n == "@") {
-                            parentFact(txt, getFqn(name(node)!!, node.parentNode))
+                            parentFact(txt, getFqn(name(node)!!))
                         } else {
                             isInstanceFact(n, txt)
                         }
@@ -95,7 +94,7 @@ class PlGenerator {
         return if (i > 0) Triple(txt!!, i, name(sibling)) else Triple(txt!!, i, name(node))
     }
 
-    private fun getFqn(name: String, par: Node): String {
+    private fun getFqn(name: String): String {
 //        var fqn = name
 //        var parent = par
 //        while (name(parent) != null) {

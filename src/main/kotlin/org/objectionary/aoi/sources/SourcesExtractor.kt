@@ -34,7 +34,7 @@ class SourcesExtractor {
         Files.walk(Paths.get(path))
             .filter(Files::isRegularFile)
             .forEach {
-                val tmpPath = createTempDirectories(path, it.toString())
+                val tmpPath = createTempDirectories(path)
                 transformXml(it.toString(), tmpPath)
                 documents[getDocument(tmpPath)!!] = tmpPath
             }
@@ -87,12 +87,9 @@ class SourcesExtractor {
         return null
     }
 
-    private fun createTempDirectories(
-        path: String,
-        filename: String
-    ): String {
+    private fun createTempDirectories(path: String): String {
         val tmpPath =
-            "${path.substringBeforeLast(sep)}$sep${path.substringAfterLast(sep).substringBeforeLast(".")}_aoi_l.xmir"
+            "${path.substringBeforeLast(sep)}_aoi_l$sep${path.substringAfterLast(sep)}"
         val forDirs = File(tmpPath.substringBeforeLast(sep)).toPath()
         Files.createDirectories(forDirs)
         val newFilePath = Paths.get(tmpPath)
