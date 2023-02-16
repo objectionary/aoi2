@@ -2,3 +2,5 @@
 target/
 *aoi2
 proloog.pl
+.idea
+*.iml
