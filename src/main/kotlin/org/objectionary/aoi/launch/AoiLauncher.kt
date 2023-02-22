@@ -6,10 +6,11 @@ import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 
-fun main() {
-    launchAoi("C:\\Users\\lesya\\aoi-l\\src\\test\\resources\\integration\\in\\basic\\app.xmir")
-}
-
+/**
+ * Aggregates the whole pipeline.
+ *
+ * @param path to input directory
+ */
 fun launchAoi(path: String) {
     Files.walk(Paths.get(path))
         .filter(Files::isRegularFile)
