@@ -9,7 +9,7 @@ import java.nio.file.Paths
 /**
  * Aggregates the whole pipeline.
  *
- * @param path to input directory
+ * @param path path to input directory
  */
 fun launchAoi(path: String) {
     Files.walk(Paths.get(path))

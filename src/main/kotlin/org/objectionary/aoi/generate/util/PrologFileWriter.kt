@@ -7,11 +7,23 @@ val plFile = File(prologFile).outputStream()
 val nodes = mutableSetOf<String>() // todo write them to file
 
 
+/**
+ * Prints a "contains_attr(Obj, Attr, fact)" fact to a prolog file
+ *
+ * @param nodeName name of object
+ * @param childName name of attribute that object contain
+ */
 fun containsAttrFact(nodeName: String, childName: String) {
     plFile.write("contains_attr(${nodeName.replace('.', '-')}, ${childName.replace('.', '-')}, fact).\n".toByteArray())
     nodes.add(nodeName)
 }
 
+/**
+ * Prints a "parent(Base, Obj, fact)" fact to a prolog file
+ *
+ * @param nodeName name of base object (parent)
+ * @param childName name of derived object
+ */
 fun parentFact(nodeName: String, childName: String) {
     plFile.write("parent(${nodeName.replace('.', '-')}, ${childName.replace('.', '-')}, fact).\n".toByteArray())
 }
@@ -20,6 +32,13 @@ fun isInstanceFact(nodeName: String, childName: String) {
     plFile.write("is_instance(${nodeName.replace('.', '-')}, ${childName.replace('.', '-')}, fact).\n".toByteArray())
 }
 
+/**
+ * Prints a "dot(Obj, Fa, Attr, fact)" fact to a prolog file
+ *
+ * @param obj the name of object where dot notation is occurred
+ * @param attr the name of the free attribute to which dot notation applies
+ * @param appliedAttr the name of the attribute that is applied using dot notation
+ */
 fun appliedFact(obj: String, attr: String, appliedAttr: String) {
     plFile.write(
         ("dot(${obj.replace('.', '-')}, ${attr.replace('.', '-')}, " +
