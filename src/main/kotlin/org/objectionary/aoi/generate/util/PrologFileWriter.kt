@@ -6,6 +6,7 @@ import java.io.File
 val plFile = File(prologFile).outputStream()
 val nodes = mutableSetOf<String>() // todo write them to file
 
+
 fun containsAttrFact(nodeName: String, childName: String) {
     plFile.write("contains_attr(${nodeName.replace('.', '-')}, ${childName.replace('.', '-')}, fact).\n".toByteArray())
     nodes.add(nodeName)
@@ -26,14 +27,20 @@ fun appliedFact(obj: String, attr: String, appliedAttr: String) {
     )
 }
 
+/**
+ * Prints a set of rules to a prolog file
+ */
 fun rules() {
-    val rules = "\n% rules\n" +
-            "contains_attr(X, Y, rule) :- parent(Z, X, _),\n" +
-            "                             contains_attr(Z, Y, _).\n" +
-            "contains_attr(X, Y, rule) :- is_instance(X, Z, fact),\n" +
-            "                             contains_attr(Z, Y, _).\n" +
-            "parent(X, Y, rule) :- parent(X, Z, fact), parent(Z, Y, fact).\n" +
-            "dot(Base, Fa, Attr, rule) :- is_instance(X, Base, fact), dot(X, Fa, Attr, _).\n"
+    val rules = """
+        
+        % rules
+        contains_attr(Obj, Attr, rule) :- parent(Base, Obj, _),
+                                     contains_attr(Base, Attr, _).
+        contains_attr(Inst, Attr, rule) :- is_instance(Inst, Obj, fact),
+                                     contains_attr(Obj, Attr, _).
+        parent(Base, Obj2, rule) :- parent(Base, Obj1, fact), parent(Obj1, Obj2, fact).
+        dot(Obj, Fa, Attr, rule) :- is_instance(Inst, Obj, fact), dot(Inst, Fa, Attr, _).
+        """.trimIndent()
 
     plFile.write(rules.toByteArray())
 }
