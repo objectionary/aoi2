@@ -22,7 +22,6 @@ typealias GraphAbstracts = MutableMap<String, MutableSet<Node>>
 
 val abstracts: GraphAbstracts = mutableMapOf()
 
-
 class SourcesExtractor {
     private val logger = LoggerFactory.getLogger("org.objectionary.deog.launch.DeogLauncher")
     private val sep = File.separatorChar
@@ -30,6 +29,13 @@ class SourcesExtractor {
         val documents: MutableMap<Document, String> = mutableMapOf()
     }
 
+    /**
+     * Collects [documents] from input directory. Also invokes [createTempDirectories], [transformXml] and
+     * [findAbstracts] methods.
+     *
+     * @param path path to directory with xmir files
+     * @return [documents] - map with all Documents and paths to them
+     */
     fun collectDocuments(path: String): MutableMap<Document, String> {
         Files.walk(Paths.get(path))
             .filter(Files::isRegularFile)
@@ -44,15 +50,15 @@ class SourcesExtractor {
             for (i in 0 until docObjects.length) {
                 objects.add(docObjects.item(i))
             }
-            abstracts(objects)
+            findAbstracts(objects)
         }
         return documents
     }
 
     /**
-     * Creates a new xml by applying several xsl transformations to it
+     * Creates a new xml by applying several xsl transformations to it. The result is written to the output file.
      *
-     * @param inFilename to the input file
+     * @param inFilename path to the input file
      * @param outFilename path to the output file
      */
     private fun transformXml(
@@ -74,6 +80,8 @@ class SourcesExtractor {
     }
 
     /**
+     * Get Document from source xml file
+     *
      * @param filename source xml filename
      * @return generated Document
      */
@@ -87,6 +95,12 @@ class SourcesExtractor {
         return null
     }
 
+    /**
+     * Creates a new temporary directory ending with "_aoi2" for transformed xmir files
+     *
+     * @param path path to source xmir files
+     * @return path to file in temporary directory
+     */
     private fun createTempDirectories(path: String): String {
         val tmpPath =
             "${path.substringBeforeLast(sep)}_aoi2$sep${path.substringAfterLast(sep)}"
@@ -101,8 +115,14 @@ class SourcesExtractor {
         return tmpPath
     }
 
+    /**
+     * Iterates through [objects] list and collects all abstract objects into [abstracts].
+     *
+     * @param objects list of object nodes
+     * @return result of forEach
+     */
     @Suppress("PARAMETER_NAME_IN_OUTER_LAMBDA")
-    private fun abstracts(objects: MutableList<Node>) =
+    private fun findAbstracts(objects: MutableList<Node>) =
         objects.forEach {
             val name = name(it)
             if (abstract(it) != null && name != null) {

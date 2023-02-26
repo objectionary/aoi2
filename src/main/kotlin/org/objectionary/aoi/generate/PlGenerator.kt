@@ -13,6 +13,9 @@ import java.io.File
 typealias GraphAbstracts = MutableMap<String, MutableSet<Node>>
 const val prologFile = "proloog.pl"
 
+/**
+ * Constructs Prolog facts from xmir
+ */
 class PlGenerator {
     fun generatePrologScripts(path: String) {
         File(prologFile).createNewFile()
