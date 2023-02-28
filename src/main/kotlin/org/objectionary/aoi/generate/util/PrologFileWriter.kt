@@ -4,7 +4,10 @@ import org.objectionary.aoi.generate.prologFile
 import java.io.File
 
 val plFile = File(prologFile).outputStream()
-val nodes = mutableSetOf<String>() // todo write them to file
+/**
+ * @todo #22 write them to file
+ */
+val nodes = mutableSetOf<String>()
 
 
 /**
