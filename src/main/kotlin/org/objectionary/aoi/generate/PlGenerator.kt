@@ -11,7 +11,10 @@ import org.w3c.dom.Node
 import java.io.File
 
 typealias GraphAbstracts = MutableMap<String, MutableSet<Node>>
-//fixme: remove this global constant
+
+/**
+ * @todo #22 this global constant need to be removed
+ */
 const val prologFile = "proloog.pl"
 
 /**
@@ -40,7 +43,9 @@ class PlGenerator {
      * @param document Document from which Prolog facts will be collected
      */
     private fun generatePrologScript(document: Document) {
-        //fixme: this piece of code do nothing
+        /**
+         * @todo #22 this piece of code (5 lines below) do nothing
+         */
         val objects: MutableList<Node> = mutableListOf()
         val docObjects = document.getElementsByTagName("o")
         for (i in 0 until docObjects.length) {
@@ -63,7 +68,9 @@ class PlGenerator {
      * @param node node to be iterated over
      */
     private fun collectNodeInfo(node: Node) {
-        //fixme: refactor this method
+        /**
+         * @todo #22 refactor this method (too much nesting)
+         */
         val children = node.childNodes ?: return
         var offset = 0
         for (i in 0 until children.length) {
@@ -117,7 +124,6 @@ class PlGenerator {
         return if (i > 0) Triple(txt!!, i, name(sibling)) else Triple(txt!!, i, name(node))
     }
 
-    //fixme: remove this function
     private fun getFqn(name: String): String {
 //        var fqn = name
 //        var parent = par
@@ -129,7 +135,9 @@ class PlGenerator {
         return name
     }
 
-    //fixme: this function is not used here; also it defined at SourceExtractor
+    /**
+     * @todo #22 this method is not used here; also it defined at SourceExtractor
+     */
     @Suppress("PARAMETER_NAME_IN_OUTER_LAMBDA")
     private fun abstracts(objects: MutableList<Node>) {
         val abstracts: GraphAbstracts = mutableMapOf()

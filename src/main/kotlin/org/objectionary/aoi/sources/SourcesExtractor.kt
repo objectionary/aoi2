@@ -22,6 +22,9 @@ typealias GraphAbstracts = MutableMap<String, MutableSet<Node>>
 
 val abstracts: GraphAbstracts = mutableMapOf()
 
+/**
+ * Extract information from source xmir files
+ */
 class SourcesExtractor {
     private val logger = LoggerFactory.getLogger("org.objectionary.deog.launch.DeogLauncher")
     private val sep = File.separatorChar
