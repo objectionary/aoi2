@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<program ms="160"
+          name="sandbox.app"
+          source="/Users/c71n93/Programming/EOLANG/sandbox/eo/sandbox/app.eo"
+          time="2023-02-24T11:46:15.652234Z"
+          version="0.29.1">
+   <listing>+package sandbox
++alias org.eolang.io.stdout
+
+[] &gt; animal
+  [] &gt; talk
+    stdout "talk" &gt; @
+
+[] &gt; dog
+  animal &gt; @
+  [] &gt; move
+    TRUE &gt; @
+
+[x] &gt; main
+  x.move &gt; @
+
+[args...] &gt; app
+  main dog &gt; @
+</listing>
+   <errors/>
+   <sheets/>
+   <license/>
+   <metas>
+      <meta line="1">
+         <head>package</head>
+         <tail>sandbox</tail>
+         <part>sandbox</part>
+      </meta>
+      <meta line="2">
+         <head>alias</head>
+         <tail>org.eolang.io.stdout</tail>
+         <part>org.eolang.io.stdout</part>
+      </meta>
+   </metas>
+   <objects>
+      <o abstract="" line="4" name="animal" pos="0">
+         <o abstract="" line="5" name="talk" pos="2">
+            <o base="stdout" line="6" name="@" pos="4">
+               <o base="string" data="bytes" line="6" pos="11">74 61 6C 6B</o>
+            </o>
+         </o>
+      </o>
+      <o abstract="" line="8" name="dog" pos="0">
+         <o base="animal" line="9" name="@" pos="2"/>
+         <o abstract="" line="10" name="move" pos="2">
+            <o base="bool" data="bytes" line="11" name="@" pos="4">01</o>
+         </o>
+      </o>
+      <o abstract="" line="13" name="main" pos="0">
+         <o line="13" name="x" pos="1"/>
+         <o base="x" line="14" pos="2"/>
+         <o base=".move" line="14" method="" name="@" pos="3"/>
+      </o>
+      <o abstract="" line="16" name="app" pos="0">
+         <o line="16" name="args" pos="1" vararg=""/>
+         <o base="main" line="17" name="@" pos="2">
+            <o base="dog" line="17" pos="7"/>
+         </o>
+      </o>
+   </objects>
+</program>

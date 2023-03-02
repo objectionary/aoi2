@@ -11,9 +11,22 @@ import org.w3c.dom.Node
 import java.io.File
 
 typealias GraphAbstracts = MutableMap<String, MutableSet<Node>>
+
+/**
+ * @todo #22 this global constant need to be removed
+ */
 const val prologFile = "proloog.pl"
 
+/**
+ * Constructs Prolog facts from xmir
+ */
 class PlGenerator {
+
+    /**
+     * Generates Prolog script for each xmir file from input directory.
+     *
+     * @param path path to the input directory
+     */
     fun generatePrologScripts(path: String) {
         File(prologFile).createNewFile()
         val sourcesExtractor = SourcesExtractor()
@@ -24,12 +37,21 @@ class PlGenerator {
         rules()
     }
 
+    /**
+     * Generates Prolog script for a single [document]
+     *
+     * @param document Document from which Prolog facts will be collected
+     */
     private fun generatePrologScript(document: Document) {
+        /**
+         * @todo #22 this piece of code (5 lines below) do nothing
+         */
         val objects: MutableList<Node> = mutableListOf()
         val docObjects = document.getElementsByTagName("o")
         for (i in 0 until docObjects.length) {
             objects.add(docObjects.item(i))
         }
+        //
         val obj = document.getElementsByTagName("objects").item(0)
         val children = obj.childNodes ?: return
         for (i in 0 until children.length) {
@@ -40,7 +62,15 @@ class PlGenerator {
         }
     }
 
+    /**
+     * Recursively iterates over the children of [node] and write facts into Prolog file
+     *
+     * @param node node to be iterated over
+     */
     private fun collectNodeInfo(node: Node) {
+        /**
+         * @todo #22 refactor this method (too much nesting)
+         */
         val children = node.childNodes ?: return
         var offset = 0
         for (i in 0 until children.length) {
@@ -75,7 +105,7 @@ class PlGenerator {
     }
 
     /**
-     * @return concatenated test of bases, nu,ber of passed children, true if name == "@" else false
+     * @return concatenated text of base nodes; number of passed children; true if name == "@" else false
      */
     private fun walkDotChain(
         node: Node
@@ -105,6 +135,9 @@ class PlGenerator {
         return name
     }
 
+    /**
+     * @todo #22 this method is not used here; also it defined at SourceExtractor
+     */
     @Suppress("PARAMETER_NAME_IN_OUTER_LAMBDA")
     private fun abstracts(objects: MutableList<Node>) {
         val abstracts: GraphAbstracts = mutableMapOf()
