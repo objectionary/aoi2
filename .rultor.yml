@@ -7,7 +7,7 @@ assets:
 install: |
   javac -version
   pdd --file=/dev/null
-  sudo apt-get install -y swi-prolog
+  sudo apt-get install --yes swi-prolog
 merge:
   script: |
     mvn clean install -Pqulice --errors -Dstyle.color=never
