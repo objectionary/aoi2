@@ -54,7 +54,7 @@ fun appliedFact(obj: String, attr: String, appliedAttr: String) {
  */
 fun rules() {
     val rules = """
-        
+
         % rules
         contains_attr(Obj, Attr, rule) :- parent(Base, Obj, _),
                                      contains_attr(Base, Attr, _).
