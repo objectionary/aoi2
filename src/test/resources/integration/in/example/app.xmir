@@ -1,9 +1,9 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  * SPDX-FileCopyrightText: Copyright (c) 2022 Roman Korostinskiy
  * SPDX-License-Identifier: MIT
 -->
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <program ms="160"
           name="sandbox.app"
           source="/Users/c71n93/Programming/EOLANG/sandbox/eo/sandbox/app.eo"
