@@ -1,5 +1,7 @@
-.idea/
-target/
-*aoi2
-proloog.pl
 *.iml
+*aoi2
+.DS_Store
+.idea/
+node_modules/
+proloog.pl
+target/
