@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Copyright (c) 2022 Roman Korostinskiy
+// SPDX-License-Identifier: MIT
+
 package org.objectionary.aoi.launch
 
 /**
